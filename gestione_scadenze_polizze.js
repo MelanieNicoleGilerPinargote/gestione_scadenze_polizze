@@ -7,12 +7,43 @@ document.addEventListener('DOMContentLoaded', function() {
     // Variabile globale per le scadenze
     let scadenze = [];
 
+    // Funzione per normalizzare i dati ricevuti dal Google Sheets
+    function normalizzaDatiGoogleSheets(data) {
+        // Esempio: data = [ { BROKER: ..., CONTRAENTE: ..., ... , PREMIO: ..., SCADENZA: ... }, ... ]
+        const polizze = [];
+        data.forEach(riga => {
+            // Gestione scadenze multiple separate da virgola
+            let scadenzeArr = [];
+            if (riga.SCADENZA && riga.SCADENZA.trim() !== "0" && riga.SCADENZA.trim() !== "") {
+                const dateArr = riga.SCADENZA.split(',').map(s => s.trim());
+                dateArr.forEach(dataScad => {
+                    scadenzeArr.push({
+                        data: dataScad,
+                        premio: riga.PREMIO || '',
+                        stato: 'in_scadenza',
+                        fatturaUrl: ''
+                    });
+                });
+            }
+            polizze.push({
+                broker: riga.BROKER || '',
+                contraente: riga.CONTRAENTE || '',
+                twCommessa: riga["TW COMMESSA"] || '',
+                compagnia: riga["AGNIA ASSICUR"] || '',
+                polizza: riga["polizza n."] || '',
+                pagataDa: riga["PAGATA DA"] || '',
+                scadenze: scadenzeArr
+            });
+        });
+        return polizze;
+    }
+
     // Carica dati da n8n/Google Sheets all'avvio
     function caricaDatiDaN8N() {
         fetch('https://TUA_INSTANZA_N8N/webhook/leggi-polizze') // Sostituisci con il tuo URL reale
             .then(res => res.json())
             .then(data => {
-                scadenze = data;
+                scadenze = normalizzaDatiGoogleSheets(data);
                 aggiornaTabella();
                 aggiornaSelectPolizza();
             })
