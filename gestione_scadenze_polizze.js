@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         scadenze[polizzaIdx].scadenze[scadIdx].premio = newValue;
                     }
                     aggiornaTabella();
+                    salvaSuN8N(); // <--- Salva su n8n dopo ogni modifica
                 };
                 input.onkeydown = (e) => {
                     if (e.key === 'Enter') input.blur();
@@ -109,6 +110,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectPolizza.appendChild(option);
             }
         });
+    }
+
+    function salvaSuN8N() {
+        fetch('https://TUAISTANZA.n8n.cloud/webhook/salva-polizze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(scadenze)
+        })
+        .then(res => res.json())
+        .then(data => console.log('Dati salvati su n8n:', data))
+        .catch(err => console.error('Errore salvataggio n8n:', err));
     }
 
     aggiornaTabella();
