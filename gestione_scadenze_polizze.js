@@ -4,31 +4,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const formScadenza = document.getElementById('aggiungi-scadenza-form');
     const selectPolizza = document.getElementById('select-polizza');
 
-    // Inserisci qui i dati reali, ogni oggetto rappresenta una riga della tabella
-    // Ora ogni polizza ha un array di scadenze
-    const scadenze = [
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2106', compagnia: 'S2C', polizza: '50140', pagataDa: 'MYTHOS', scadenze: [ { data: '01/09/2025', premio: '273,80 €' } ] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2338', compagnia: 'AXA', polizza: '410442401', pagataDa: 'MYTHOS', scadenze: [] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2336', compagnia: 'COFACE', polizza: '2390566', pagataDa: 'MYTHOS', scadenze: [] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW1917', compagnia: 'ZURICH', polizza: 'PC78ZVT0', pagataDa: 'MYTHOS', scadenze: [] },
-        { broker: 'BIZZARRI', contraente: 'TECNICAER', twCommessa: 'TW2414', compagnia: 'DUAL ITALIA', polizza: 'PI-00K8WF2440', pagataDa: 'TECNICAER', scadenze: [] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2010', compagnia: 'DUAL ITALIA', polizza: 'PI-00K1YJ2440', pagataDa: 'MYTHOS', scadenze: [] },
-        { broker: 'BUSSO', contraente: 'MYTHOS', twCommessa: 'TW1809', compagnia: "LLOYD'S", polizza: 'GK24B0204D3226A-LB', pagataDa: 'MYTHOS', scadenze: [] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW1913', compagnia: 'S2C', polizza: '37837', pagataDa: 'MYTHOS', scadenze: [ { data: '01/07/2025', premio: '3.500,00 €' } ] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW1923', compagnia: "LLOYD'S", polizza: 'A122C574537-LB', pagataDa: 'MYTHOS', scadenze: [] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2007', compagnia: 'S2C', polizza: '41689', pagataDa: 'MYTHOS', scadenze: [ { data: '01/12/2024', premio: '10.471,00 €' }, { data: '01/12/2025', premio: '10.471,00 €' } ] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2404', compagnia: 'REVO', polizza: 'OX00033370', pagataDa: 'MYTHOS', scadenze: [ { data: '01/07/2025', premio: '300,00 €' } ] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2404', compagnia: 'REVO', polizza: 'OX00033376', pagataDa: 'MYTHOS', scadenze: [ { data: '01/07/2025', premio: '300,00 €' } ] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW1804', compagnia: 'S2C', polizza: '27194', pagataDa: 'MYTHOS', scadenze: [ { data: '01/12/2024', premio: '9.016,00 €' }, { data: '01/06/2025', premio: '9.016,00 €' } ] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2002', compagnia: 'S2C', polizza: '42210', pagataDa: 'MYTHOS', scadenze: [ { data: '01/01/2025', premio: '11.205,18 €' } ] },
-        { broker: 'BUSSO', contraente: 'PAT', twCommessa: '', compagnia: 'ELBA-REVO', polizza: '1292968', pagataDa: 'PAT', scadenze: [ { data: '01/12/2024', premio: '1.104,00 €' } ] },
-        { broker: 'BUSSO', contraente: 'MYTHOS', twCommessa: 'TW1821', compagnia: 'HELVETIA', polizza: '46816020', pagataDa: 'MYTHOS', scadenze: [ { data: '01/09/2025', premio: '8.708,00 €' } ] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW1911', compagnia: 'ZURICH', polizza: 'PC9K2KP4', pagataDa: 'MYTHOS', scadenze: [ { data: '01/05/2025', premio: '5.025,00 €' } ] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2010', compagnia: 'S2C', polizza: '45901', pagataDa: 'MYTHOS', scadenze: [ { data: '01/12/2024', premio: '2.980,00 €' }, { data: '01/06/2025', premio: '2.980,00 €' }, { data: '01/12/2025', premio: '2.980,00 €' } ] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2352', compagnia: 'COFACE', polizza: '2370008', pagataDa: 'MYTHOS', scadenze: [] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2214', compagnia: 'BCC', polizza: '19240', pagataDa: 'MYTHOS', scadenze: [] },
-        { broker: 'BIZZARRI', contraente: 'MYTHOS', twCommessa: 'TW2023', compagnia: 'S2C', polizza: '49504', pagataDa: 'MYTHOS', scadenze: [ { data: '01/12/2024', premio: '3.220,00 €' }, { data: '01/12/2025', premio: '3.220,00 €' } ] }
-    ];
+    // Variabile globale per le scadenze
+    let scadenze = [];
+
+    // Carica dati da n8n/Google Sheets all'avvio
+    function caricaDatiDaN8N() {
+        fetch('https://TUA_INSTANZA_N8N/webhook/leggi-polizze') // Sostituisci con il tuo URL reale
+            .then(res => res.json())
+            .then(data => {
+                scadenze = data;
+                aggiornaTabella();
+                aggiornaSelectPolizza();
+            })
+            .catch(err => {
+                console.error('Errore caricamento dati da n8n:', err);
+                // Se errore, puoi opzionalmente mostrare un messaggio o caricare dati di default
+            });
+    }
 
     function aggiornaTabella() {
         scadenzeBody.innerHTML = '';
@@ -113,18 +105,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function salvaSuN8N() {
-        fetch('https://TUAISTANZA.n8n.cloud/webhook/salva-polizze', {
+        fetch('http://localhost:5678/webhook-test/salva-polizze', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(scadenze)
         })
-        .then(res => res.json())
+        .then(res => res.json?.() ?? res.text())
         .then(data => console.log('Dati salvati su n8n:', data))
         .catch(err => console.error('Errore salvataggio n8n:', err));
     }
 
-    aggiornaTabella();
-    aggiornaSelectPolizza();
+    // Carica i dati all'avvio
+    caricaDatiDaN8N();
 
     formPolizza.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -133,9 +125,11 @@ document.addEventListener('DOMContentLoaded', function() {
         dati.fatturaUrl = '';
         dati.premioScadenza = '';
         dati.scadenza = '';
+        // ...aggiungi la nuova polizza all'array scadenze...
         scadenze.push(dati);
         aggiornaTabella();
         aggiornaSelectPolizza();
+        salvaSuN8N(); // Salva su n8n dopo aggiunta polizza
         formPolizza.reset();
     });
 
@@ -155,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 fatturaUrl: ''
             });
             aggiornaTabella();
+            salvaSuN8N(); // Salva su n8n dopo aggiunta scadenza
             formScadenza.reset();
         }
     });
