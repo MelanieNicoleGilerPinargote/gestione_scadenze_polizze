@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Premi in Scadenza</title>
+    <link rel="stylesheet" href="gestione_scadenze_polizze.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gestione Premi in Scadenza</h1>
+        </header>
+        <form id="aggiungi-polizza-form" style="margin-bottom: 30px;">
+            <h2>Aggiungi nuova polizza</h2>
+            <input type="text" name="broker" placeholder="BROKER" required>
+            <input type="text" name="contraente" placeholder="CONTRAENTE" required>
+            <input type="text" name="twCommessa" placeholder="TW COMMESSA" required>
+            <input type="text" name="compagnia" placeholder="COMPAGNIA ASSICURATRICE" required>
+            <input type="text" name="polizza" placeholder="polizza n." required>
+            <input type="text" name="pagataDa" placeholder="PAGATA DA" required>
+            <input type="text" name="premioScadenza" placeholder="PREMIO" required>
+            <input type="date" name="scadenza" placeholder="SCADENZA" required>
+            <button type="submit">Aggiungi Polizza</button>
+        </form>
+        <form id="aggiungi-scadenza-form" style="margin-bottom: 30px;">
+            <h2>Aggiungi scadenza a polizza esistente</h2>
+            <select name="polizza" id="select-polizza" required>
+                <option value="">Seleziona polizza...</option>
+                <!-- Popolato dinamicamente -->
+            </select>
+            <input type="text" name="premioScadenza" placeholder="PREMIO SCADENZA" required>
+            <input type="date" name="scadenza" placeholder="SCADENZA" required>
+            <button type="submit">Aggiungi Scadenza</button>
+        </form>
+        <div class="scadenze-list">
+            <table id="scadenze-table">
+                <thead>
+                    <tr>
+                        <th>BROKER</th>
+                        <th>CONTRAENTE</th>
+                        <th>TW COMMESSA</th>
+                        <th>COMPAGNIA ASSICURATRICE</th>
+                        <th>polizza n.</th>
+                        <th>PAGATA DA</th>
+                        <th>PREMIO SCADENZA</th>
+                        <th>SCADENZA</th>
+                        <th>PAGATA</th>
+                        <th>PDF FATTURA</th>
+                    </tr>
+                </thead>
+                <tbody id="scadenze-body">
+                    <!-- Popolato dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="gestione_scadenze_polizze.js"></script>
+</body>
+</html>
